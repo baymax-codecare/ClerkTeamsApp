@@ -1,0 +1,12 @@
+.provision-number.page > .narrow > img {
+  margin: 0 auto;
+  display: block;
+  width: 190px;
+}
+
+.provision-number.page .provision-form {
+  text-align: center;
+  max-width: 280px;
+  margin: 0 auto;
+  padding-top: 2rem;
+}

@@ -1,0 +1,12 @@
+.sign-in.page > .narrow > img {
+  margin: 0 auto;
+  display: block;
+  width: 125px;
+}
+
+.sign-in.page .signin-form {
+  padding-top: 2rem;
+  text-align: center;
+  max-width: 280px;
+  margin: 0 auto;
+}

@@ -1,0 +1,12 @@
+.narrow {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page-padding {
+  padding: 4rem;
+}
+
+.center {
+  text-align: center;
+}

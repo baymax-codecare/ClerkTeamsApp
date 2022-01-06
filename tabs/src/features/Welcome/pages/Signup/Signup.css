@@ -1,0 +1,10 @@
+.sign-up.page > .narrow > img {
+  margin: 0 auto;
+  display: block;
+  width: 125px;
+}
+
+.sign-up.page .signup-form {
+  max-width: 469px;
+  margin: 0 auto;
+}

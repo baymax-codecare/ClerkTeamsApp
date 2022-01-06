@@ -1,0 +1,10 @@
+.new-number.page > .narrow > img {
+  margin: 0 auto;
+  display: block;
+  width: 191px;
+}
+
+.new-number.page .new-number-form {
+  max-width: 560px;
+  margin: 0 auto;
+}
