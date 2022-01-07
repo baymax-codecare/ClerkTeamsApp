@@ -1,21 +1,35 @@
-import { useMsal } from '@azure/msal-react';
 import { Image, Button, Flex } from '@fluentui/react-northstar';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Microsoft } from '../../../../components/icons';
+import { NotificationType, useNotificationStore } from '../../../../stores/notifications';
 
 import './Signin.css';
 export const Signin = () => {
-  const loginRequest = {
-    scopes: ['User.Read'],
-  };
-  const { instance } = useMsal();
-  // const navigate = useNavigate();
-  const handleSignin = () => {
-    instance.loginPopup(loginRequest).catch((e) => {
-      console.log(e);
-    });
-    // navigate('/auth/provision-number');
+  const navigate = useNavigate();
+  const handleSignin = async () => {
+    try {
+      microsoftTeams.authentication.authenticate({
+        url: window.location.origin + '/auth/signin',
+        width: 600,
+        height: 535,
+        successCallback: function (result) {
+          // getUserProfile(result.accessToken);
+        },
+        failureCallback: function (reason) {
+          // handleAuthError(reason);
+        },
+      });
+      navigate('/auth/provision-number');
+    } catch (error: any) {
+      const message = error.response?.data?.message || error?.message || error;
+
+      useNotificationStore.getState().addNotification({
+        type: NotificationType.ERROR,
+        title: 'Error',
+        message,
+      });
+    }
   };
 
   return (
