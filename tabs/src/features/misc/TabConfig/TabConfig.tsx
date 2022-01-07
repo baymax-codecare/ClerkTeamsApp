@@ -22,8 +22,8 @@ class TabConfig extends React.Component {
       microsoftTeams.settings.setSettings({
         suggestedDisplayName: 'My Tab',
         entityId: 'Test',
-        contentUrl: baseUrl + '/index.html#/tab',
-        websiteUrl: baseUrl + '/index.html#/tab',
+        contentUrl: baseUrl + '/',
+        websiteUrl: baseUrl + '/',
       });
       saveEvent.notifySuccess();
     });
