@@ -1,35 +1,39 @@
 import { Image, Button, Flex } from '@fluentui/react-northstar';
-import { useNavigate } from 'react-router-dom';
+import { TeamsUserCredential } from '@microsoft/teamsfx';
 
 import { Microsoft } from '../../../../components/icons';
-import { NotificationType, useNotificationStore } from '../../../../stores/notifications';
-
+import { useAuth } from '../../../../lib/auth';
+import storage from '../../../../utils/storage';
+import { LoginCredentialsDTO } from '../../api/login';
 import './Signin.css';
 export const Signin = () => {
-  const navigate = useNavigate();
-  const handleSignin = async () => {
-    try {
-      microsoftTeams.authentication.authenticate({
-        url: window.location.origin + '/auth/signin',
-        width: 600,
-        height: 535,
-        successCallback: function (result) {
-          // getUserProfile(result.accessToken);
-        },
-        failureCallback: function (reason) {
-          // handleAuthError(reason);
-        },
-      });
-      navigate('/auth/provision-number');
-    } catch (error: any) {
-      const message = error.response?.data?.message || error?.message || error;
+  const { login } = useAuth();
+  // const navigate = useNavigate();
+  //const { isInTeams } = useTeamsFx();
 
-      useNotificationStore.getState().addNotification({
-        type: NotificationType.ERROR,
-        title: 'Error',
-        message,
-      });
+  const handleSignin = async () => {
+    const credential = new TeamsUserCredential();
+    //if (isInTeams) {
+    try {
+      const userInfo = await credential.getUserInfo();
+      const token = await credential.getToken('');
+      storage.setToken(token?.token || '');
+      const userDTO: LoginCredentialsDTO = {
+        email: userInfo.objectId,
+        token: token?.token || '',
+      };
+
+      const authUser = await login(userDTO);
+      console.log(authUser);
+      // navigate('/inbox');
+    } catch (error) {
+      // TODO: Handle Error
     }
+
+    //
+    //} else {
+    // TODO: show login pop to login with Microsoft Windows
+    //}
   };
 
   return (
