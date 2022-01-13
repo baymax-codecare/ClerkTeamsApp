@@ -1,41 +1,87 @@
 import { Image, Button, Flex } from '@fluentui/react-northstar';
 import { TeamsUserCredential } from '@microsoft/teamsfx';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import { AuthUser } from '../..';
 import { Microsoft } from '../../../../components/icons';
 import { useAuth } from '../../../../lib/auth';
+import { useNotificationStore, NotificationType } from '../../../../stores/notifications';
 import storage from '../../../../utils/storage';
 import { LoginCredentialsDTO } from '../../api/login';
+import { UserStatus } from '../../types/user-status.enum';
 import './Signin.css';
 export const Signin = () => {
-  const { login } = useAuth();
-  // const navigate = useNavigate();
-  //const { isInTeams } = useTeamsFx();
+  const { user, login, isLoggingIn } = useAuth();
+  const navigate = useNavigate();
+  const [isSigningIn, setIsSigninIn] = useState(false);
 
-  const handleSignin = async () => {
-    const credential = new TeamsUserCredential();
-    //if (isInTeams) {
-    try {
-      const userInfo = await credential.getUserInfo();
-      const token = await credential.getToken('');
-      storage.setToken(token?.token || '');
-      const userDTO: LoginCredentialsDTO = {
-        email: userInfo.objectId,
-        token: token?.token || '',
-      };
+  const navigateByUserStatus = async (user: AuthUser | null | undefined) => {
+    if (!user) return;
 
-      const authUser = await login(userDTO);
-      console.log(authUser);
-      // navigate('/inbox');
-    } catch (error) {
-      // TODO: Handle Error
+    switch (user?.status) {
+      case UserStatus.PROVIDE_OWN_NUMBER:
+        return navigate('/auth/signup');
+      case UserStatus.PROVISION_NUMBER:
+        return navigate('/auth/provision-number');
+      case UserStatus.BLOCKED:
+        return useNotificationStore.getState().addNotification({
+          type: NotificationType.ERROR,
+          title: 'Error',
+          message: 'Your account is blocked, contact support team for more detailed information',
+        });
     }
-
-    //
-    //} else {
-    // TODO: show login pop to login with Microsoft Windows
-    //}
   };
 
+  useEffect(() => {
+    navigateByUserStatus(user);
+  });
+
+  const handleSignin = async () => {
+    setIsSigninIn(true);
+    try {
+      let authUser;
+
+      //
+      // if already logged in
+      //
+      if (user) {
+        authUser = user;
+      } else {
+        //
+        // attempts login with access_token from teams app
+        //
+
+        const credential = new TeamsUserCredential();
+        const userInfo = await credential.getUserInfo(); // Get logged in user info from teams app
+        const token = await credential.getToken(''); // Get token from teams app //* behind msal.js is running to get token *//
+        storage.setToken(token?.token || ''); // set token for the axios request
+
+        const userDTO: LoginCredentialsDTO = {
+          preferred_username: userInfo.objectId,
+        };
+
+        authUser = await login(userDTO); // login request to the backend
+
+        if (authUser == null) {
+          throw 'User not found'; // Login failed
+        }
+      }
+
+      setIsSigninIn(false);
+      navigateByUserStatus(authUser); // Navigate to the next step according to the user status
+    } catch (error: any) {
+      const message = error.response?.data?.message || error?.message || error;
+
+      useNotificationStore.getState().addNotification({
+        type: NotificationType.ERROR,
+        title: 'Error',
+        message,
+      });
+      console.error(error);
+      // setIsSigninIn(false);
+    }
+  };
   return (
     <div className="sign-in page">
       <div className="narrow page-padding">
@@ -49,6 +95,8 @@ export const Signin = () => {
             primary
             content="Sign in with Microsoft"
             fluid
+            disabled={isLoggingIn || isSigningIn}
+            loading={isLoggingIn || isSigningIn}
             onClick={handleSignin}
             icon={<Microsoft />}
           />

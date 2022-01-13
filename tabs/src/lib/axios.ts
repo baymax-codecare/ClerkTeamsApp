@@ -7,7 +7,7 @@ import storage from '../utils/storage';
 function authRequestInterceptor(config: AxiosRequestConfig) {
   const token = storage.getToken();
   if (token) {
-    config.headers.authorization = `${token}`;
+    config.headers.authorization = `Bearer ${token}`;
   }
   config.headers.Accept = 'application/json';
   return config;
@@ -23,6 +23,12 @@ axios.interceptors.response.use(
     return response.data;
   },
   (error) => {
+    // Unauthorized request
+    if (error.response.status == 401) {
+      storage.clearToken();
+      window.location.href = `${window.location.origin}/auth/signin`;
+    }
+
     const message = error.response?.data?.message || error.message;
     useNotificationStore.getState().addNotification({
       type: NotificationType.ERROR,

@@ -56,11 +56,15 @@ const authConfig = {
       </Flex>
     );
   },
+  ErrorComponent(error: any) {
+    console.error(error);
+    return <div>ERROR HERE</div>;
+  },
 };
 
 export const { AuthProvider, useAuth } = initReactQueryAuth<
   AuthUser | null,
-  unknown,
+  any,
   LoginCredentialsDTO,
   RegisterCredentialsDTO
 >(authConfig);

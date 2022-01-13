@@ -8,17 +8,17 @@ export const Notifications = () => {
     <div
       style={{
         position: 'absolute',
-        left: 0,
-        top: 0,
+        top: '2.0rem',
+        right: '1.0rem',
       }}
     >
-      {notifications.map((notification: NotificationType) => {
+      {notifications.map((notification: NotificationType) => (
         <Notification
           key={notification.id}
           notification={notification}
           onDismiss={dismissNotification}
-        />;
-      })}
+        />
+      ))}
     </div>
   );
 };

@@ -21,7 +21,10 @@ const ErrorFallback = () => {
       role="alert"
     >
       <h2 className="text-lg font-semibold">Ooops, something went wrong :( </h2>
-      <Button className="mt-4" onClick={() => window.location.assign(window.location.origin)}>
+      <Button
+        className="mt-4"
+        onClick={() => window.location.assign(`${window.location.origin}/auth/signin`)}
+      >
         Refresh
       </Button>
     </div>
@@ -30,7 +33,8 @@ const ErrorFallback = () => {
 
 export const AppProvider = ({ children }: AppProviderProps) => {
   const { theme, loading } = useTeamsFx();
-
+  // TODO: Check if this application is running on teams,
+  // if not shows that this application is only available on teams
   return (
     <React.Suspense
       fallback={

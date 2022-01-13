@@ -19,6 +19,9 @@ export const Notification = ({
   return (
     <Alert
       header={title}
+      styles={{
+        marginBottom: '0.5rem',
+      }}
       content={message}
       dismissible
       dismissAction={{
@@ -31,6 +34,6 @@ export const Notification = ({
       variables={{
         urgent: type == NotificationType.ERROR,
       }}
-    ></Alert>
+    />
   );
 };

@@ -6,19 +6,39 @@ import {
   Button,
   Flex,
   FormCheckbox,
-  FlexItem,
+  Dropdown,
+  Text,
 } from '@fluentui/react-northstar';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { CaseOfUsing } from '../../types/user-case-of-using.enum';
 import './Signup.css';
+
+const caseOfUse = ['Customer Support', 'MFA(Verification Codes)', 'Sales & Marketing', 'Other'];
+const caseOfUseMap = new Map([
+  ['Customer Support', CaseOfUsing.CUSTOMER_SUPPORT],
+  ['MFA(Verification Codes)', CaseOfUsing.MFA],
+  ['Sales & Marketing', CaseOfUsing.SALES_AND_MARKETING],
+  ['Other', CaseOfUsing.OTHER],
+]);
 export const Signup = () => {
+  const [inputs, setInputs] = useState({ phone: '' });
+
   const navigate = useNavigate();
 
   const handleDone = () => {
-    navigate('/welcome/provision-number');
+    alert(inputs);
+  };
+
+  const handleChange = (event: any) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values: any) => ({ ...values, [name]: value }));
   };
 
   const handleCancel = () => {
-    navigate('/welcome/sign-n');
+    navigate('/auth/signin');
   };
   return (
     <div className="sign-up page">
@@ -28,48 +48,29 @@ export const Signup = () => {
           <Form onSubmit={handleDone}>
             <h1 style={{ marginBottom: 0 }}>Sign up</h1>
             <p style={{ marginTop: 0 }}>Tell us a bit about yourself.</p>
-            <Flex gap="gap.small" fill={true} style={{ paddingTop: '2.0rem' }}>
-              <FlexItem grow={true}>
-                <FormInput
-                  fluid
-                  label="First Name"
-                  name="fname"
-                  id="first-name"
-                  required
-                  showSuccessIndicator={false}
-                  placeholder="John"
-                />
-              </FlexItem>
-              <FlexItem grow={true}>
-                <FormInput
-                  fluid
-                  label="Last Name"
-                  name="lname"
-                  id="last-name"
-                  required
-                  showSuccessIndicator={false}
-                  placeholder="Rich"
-                />
-              </FlexItem>
-            </Flex>
-            <FormInput
-              fluid
-              type="email"
-              label="Email"
-              name="email"
-              id="email"
-              required
-              showSuccessIndicator={false}
-              placeholder="john@microsoft.com"
+
+            <Text>How are you planning on using Clerk?</Text>
+            <Dropdown
+              items={caseOfUse}
+              defaultValue={caseOfUseMap.get(CaseOfUsing.CUSTOMER_SUPPORT)}
+              getA11ySelectionMessage={{
+                onAdd: (item) => {
+                  const case_of_using = caseOfUseMap.get(item?.toString() || '');
+                  setInputs((values) => ({ ...values, case_of_using }));
+                  return 'hha';
+                },
+              }}
             />
             <FormInput
               fluid
               label="Phone Number"
-              name="phonenumber"
-              id="phonenumber"
+              name="phone"
+              id="phone"
               required
               showSuccessIndicator={false}
               placeholder="(415) 943-6084"
+              value={inputs?.phone || ''}
+              onChange={handleChange}
             />
             <Flex vAlign="center">
               <FormCheckbox label="By signing up you agree to the" id="conditions" />

@@ -1,5 +1,6 @@
 import { useRoutes } from 'react-router-dom';
 
+import { UserStatus } from '../features/auth/types/user-status.enum';
 import { NotFound, Privacy, TermsOfUse, TabConfig } from '../features/misc';
 import { useAuth } from '../lib/auth';
 
@@ -27,7 +28,8 @@ export const AppRoutes = () => {
     },
   ];
 
-  const routes = auth.user ? protectedRoutes : publicRoutes;
+  const routes =
+    auth.user && auth.user.status === UserStatus.ACTIVE ? protectedRoutes : publicRoutes;
 
   const element = useRoutes([...routes, ...commonRoutes]);
 
