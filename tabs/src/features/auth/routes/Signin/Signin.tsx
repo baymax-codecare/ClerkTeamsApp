@@ -1,41 +1,16 @@
 import { Image, Button, Flex } from '@fluentui/react-northstar';
 import { TeamsUserCredential } from '@microsoft/teamsfx';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
-import { AuthUser } from '../..';
 import { Microsoft } from '../../../../components/icons';
 import { useAuth } from '../../../../lib/auth';
 import { useNotificationStore, NotificationType } from '../../../../stores/notifications';
 import storage from '../../../../utils/storage';
 import { LoginCredentialsDTO } from '../../api/login';
-import { UserStatus } from '../../types/user-status.enum';
 import './Signin.css';
 export const Signin = () => {
   const { user, login, isLoggingIn } = useAuth();
-  const navigate = useNavigate();
   const [isSigningIn, setIsSigninIn] = useState(false);
-
-  const navigateByUserStatus = async (user: AuthUser | null | undefined) => {
-    if (!user) return;
-
-    switch (user?.status) {
-      case UserStatus.PROVIDE_OWN_NUMBER:
-        return navigate('/auth/signup');
-      case UserStatus.PROVISION_NUMBER:
-        return navigate('/auth/provision-number');
-      case UserStatus.BLOCKED:
-        return useNotificationStore.getState().addNotification({
-          type: NotificationType.ERROR,
-          title: 'Error',
-          message: 'Your account is blocked, contact support team for more detailed information',
-        });
-    }
-  };
-
-  useEffect(() => {
-    navigateByUserStatus(user);
-  });
 
   const handleSignin = async () => {
     setIsSigninIn(true);
@@ -69,7 +44,6 @@ export const Signin = () => {
       }
 
       setIsSigninIn(false);
-      navigateByUserStatus(authUser); // Navigate to the next step according to the user status
     } catch (error: any) {
       const message = error.response?.data?.message || error?.message || error;
 
@@ -79,7 +53,7 @@ export const Signin = () => {
         message,
       });
       console.error(error);
-      // setIsSigninIn(false);
+      setIsSigninIn(false);
     }
   };
   return (

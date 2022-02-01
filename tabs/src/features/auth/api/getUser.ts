@@ -1,6 +1,6 @@
 import { axios } from '../../../lib/axios';
-import { AuthUser } from '../types';
+import { UserResponse } from '../types';
 
-export const getUser = (): Promise<AuthUser> => {
+export const getUser = (): Promise<UserResponse> => {
   return axios.get('/auth/me');
 };
