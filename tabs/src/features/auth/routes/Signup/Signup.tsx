@@ -28,8 +28,9 @@ export const Signup = () => {
   const [inputs, setInputs] = useState({ phone: '', case_of_using: CaseOfUsing.CUSTOMER_SUPPORT });
   const [isAcceptTerms, setAcceptTerms] = useState(false);
 
-  const navigate = useNavigate();
-
+  //
+  // React Query Mutation & Submit
+  //
   const updateProfileMutation = useUpdateProfile();
 
   const handleDone = async () => {
@@ -38,11 +39,16 @@ export const Signup = () => {
     });
   };
 
+  //
+  // Handle click events
+  //
   const handleChange = (event: any) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values: any) => ({ ...values, [name]: value }));
   };
+
+  const navigate = useNavigate();
 
   const handleCancel = () => {
     navigate('/auth/signin');
@@ -76,7 +82,7 @@ export const Signup = () => {
               id="phone"
               required
               showSuccessIndicator={false}
-              placeholder="(415) 943-6084"
+              placeholder=""
               value={inputs?.phone || ''}
               onChange={handleChange}
             />

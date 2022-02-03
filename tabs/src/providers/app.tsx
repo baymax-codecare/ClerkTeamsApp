@@ -19,6 +19,14 @@ const ErrorFallback = () => {
     <div
       className="text-red-500 w-screen h-screen flex flex-col justify-center items-center"
       role="alert"
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        textAlign: 'center',
+        flexFlow: 'column',
+        minHeight: '100vh',
+        alignItems: 'center',
+      }}
     >
       <h2 className="text-lg font-semibold">Ooops, something went wrong :( </h2>
       <Button

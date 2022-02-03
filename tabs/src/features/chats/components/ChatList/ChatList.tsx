@@ -1,5 +1,4 @@
 import { List, Image, Flex } from '@fluentui/react-northstar';
-import React from 'react';
 
 const items = [
   {

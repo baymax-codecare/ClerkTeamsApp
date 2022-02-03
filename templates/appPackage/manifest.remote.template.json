@@ -35,9 +35,9 @@
   "staticTabs": [
     {
       "entityId": "index",
-      "name": "Personal Tab",
-      "contentUrl": "{{{state.fx-resource-frontend-hosting.endpoint}}}/index.html#/tab",
-      "websiteUrl": "{{{state.fx-resource-frontend-hosting.endpoint}}}/index.html#/tab",
+      "name": "Chat",
+      "contentUrl": "{{{state.fx-resource-frontend-hosting.endpoint}}}/inbox",
+      "websiteUrl": "{{{state.fx-resource-frontend-hosting.endpoint}}}/inbox",
       "scopes": ["personal"]
     }
   ],

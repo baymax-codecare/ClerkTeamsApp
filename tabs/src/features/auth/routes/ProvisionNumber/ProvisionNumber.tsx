@@ -5,10 +5,10 @@ import './ProvisionNumber.css';
 export const ProvisionNumber = () => {
   const navigate = useNavigate();
   const getNewNumber = () => {
-    navigate('/welcome/new-number');
+    navigate('/auth/new-number');
   };
   const bringYourNumber = () => {
-    navigate('/welcome/bring-number');
+    navigate('/auth/bring-number');
   };
   return (
     <div className="provision-number page">

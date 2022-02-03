@@ -7,8 +7,8 @@ export const Notifications = () => {
   return (
     <div
       style={{
-        position: 'absolute',
-        top: '2.0rem',
+        position: 'fixed',
+        bottom: '2.0rem',
         right: '1.0rem',
       }}
     >

@@ -1,30 +1,11 @@
-import { Flex } from '@fluentui/react-northstar';
-import { Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
+//import { lazyImport } from '../utils/lazyImport';
 
-import { Spinner } from '../components/elements';
-import { Inbox } from '../features/Inbox';
-
-const App = () => {
-  return (
-    <>
-      <Suspense
-        fallback={
-          <Flex hAlign="center" vAlign="center" fill={true}>
-            <Spinner />
-          </Flex>
-        }
-      >
-        <Outlet />
-      </Suspense>
-    </>
-  );
-};
-
+//const { ChatRoutes } = lazyImport(() => import('../features/chats'), 'ChatRoutes');
+import { ChatRoutes } from './../features/chats';
 export const protectedRoutes = [
   {
-    path: '/',
-    element: <App />,
-    children: [{ path: '/inbox', element: <Inbox /> }],
+    path: '*',
+    element: <ChatRoutes />,
+    // children: [{ path: '/inbox', element: <Inbox /> }],
   },
 ];

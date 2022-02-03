@@ -8,7 +8,7 @@ import {
 } from '@fluentui/react-northstar';
 import React from 'react';
 
-import { ChatList } from './components/ChatList';
+import { ChatList } from '../../components/ChatList';
 const robinAvatar = {
   image: 'https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/RobinCounts.jpg',
   status: {
