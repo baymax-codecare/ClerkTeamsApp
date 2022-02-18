@@ -24,7 +24,6 @@ const ErrorFallback = () => {
         justifyContent: 'center',
         textAlign: 'center',
         flexFlow: 'column',
-        minHeight: '100vh',
         alignItems: 'center',
       }}
     >
