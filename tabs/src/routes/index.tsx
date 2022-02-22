@@ -15,8 +15,6 @@ export const AppRoutes = () => {
 
   const navigate = useNavigate();
   const navigateByUserStatus = async (user: AuthUser | null | undefined) => {
-    console.log('USER HERE');
-    console.log(user);
     if (!user) {
       return navigate('/auth/signin');
     }
@@ -61,7 +59,6 @@ export const AppRoutes = () => {
   ];
 
   const routes = user && user.status === UserStatus.ACTIVE ? protectedRoutes : publicRoutes;
-  console.log(routes);
   const element = useRoutes([...routes, ...commonRoutes]);
 
   return <>{element}</>;

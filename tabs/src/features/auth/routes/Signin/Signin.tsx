@@ -33,7 +33,7 @@ export const Signin = () => {
         storage.setToken(token?.token || ''); // set token for the axios request
 
         const userDTO: LoginCredentialsDTO = {
-          preferred_username: userInfo.objectId,
+          preferredUsername: userInfo.objectId,
         };
 
         authUser = await login(userDTO); // login request to the backend

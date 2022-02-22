@@ -25,7 +25,7 @@ const caseOfUseMap = new Map([
   [caseOfUse[3], CaseOfUsing.OTHER],
 ]);
 export const Signup = () => {
-  const [inputs, setInputs] = useState({ phone: '', case_of_using: CaseOfUsing.CUSTOMER_SUPPORT });
+  const [inputs, setInputs] = useState({ phone: '', caseOfUsing: CaseOfUsing.CUSTOMER_SUPPORT });
   const [isAcceptTerms, setAcceptTerms] = useState(false);
 
   //
@@ -68,9 +68,9 @@ export const Signup = () => {
               defaultValue={caseOfUse[0]}
               getA11ySelectionMessage={{
                 onAdd: (item) => {
-                  const case_of_using: CaseOfUsing =
+                  const caseOfUsing: CaseOfUsing =
                     caseOfUseMap.get(item?.toString() || '') || CaseOfUsing.CUSTOMER_SUPPORT;
-                  setInputs((values) => ({ ...values, case_of_using }));
+                  setInputs((values) => ({ ...values, caseOfUsing }));
                   return 'hha';
                 },
               }}

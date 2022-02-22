@@ -9,7 +9,7 @@ import { MutationConfig } from './../../../lib/react-query';
 
 export type UpdateProfileDTO = {
   data: {
-    case_of_using?: CaseOfUsing;
+    caseOfUsing?: CaseOfUsing;
     phone?: string;
     status?: UserStatus;
   };

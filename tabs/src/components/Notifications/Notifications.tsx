@@ -8,8 +8,9 @@ export const Notifications = () => {
     <div
       style={{
         position: 'fixed',
-        bottom: '2.0rem',
+        top: '2.0rem',
         right: '1.0rem',
+        zIndex: '99999',
       }}
     >
       {notifications.map((notification: NotificationType) => (

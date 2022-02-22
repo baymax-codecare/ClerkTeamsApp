@@ -2,7 +2,7 @@ import { axios } from '../../../lib/axios';
 import { UserResponse } from '../types';
 
 export type LoginCredentialsDTO = {
-  preferred_username: string;
+  preferredUsername: string;
 };
 
 export const loginWithEmailAndToken = (data: LoginCredentialsDTO): Promise<UserResponse> => {

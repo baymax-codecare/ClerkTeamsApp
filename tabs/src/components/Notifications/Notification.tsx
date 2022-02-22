@@ -6,7 +6,7 @@ export type NotificationProps = {
   notification: {
     id: string;
     type: NotificationType;
-    title: string;
+    title: string | React.ReactElement;
     message?: string;
   };
   onDismiss: (id: string) => void;

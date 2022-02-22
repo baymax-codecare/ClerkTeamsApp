@@ -1,5 +1,5 @@
 export type PhoneNumber = {
   id: string;
-  phone_number: string;
+  phoneNumber: string;
   userId: string;
 };

@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+import React from 'react';
 import create from 'zustand';
 
 export enum NotificationType {
@@ -11,7 +12,7 @@ export enum NotificationType {
 export type Notification = {
   id: string;
   type: NotificationType;
-  title: string;
+  title: string | React.ReactElement;
   message?: string;
 };
 

@@ -2,6 +2,7 @@ import { Provider, teamsTheme, Flex, Loader, Button } from '@fluentui/react-nort
 import * as React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { QueryClientProvider } from 'react-query';
+import { Provider as ReduxProvider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { Spinner } from '../components/elements';
@@ -9,7 +10,7 @@ import { Notifications } from '../components/Notifications';
 import { AuthProvider } from '../lib/auth';
 import { queryClient } from '../lib/react-query';
 import { useTeamsFx } from '../lib/useTeamsFx';
-
+import { store } from '../stores/redux/store';
 type AppProviderProps = {
   children: React.ReactNode;
 };
@@ -52,12 +53,14 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     >
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Provider theme={theme || teamsTheme} styles={{ backgroundColor: '#eeeeee' }}>
-          <QueryClientProvider client={queryClient}>
-            <Notifications />
-            <AuthProvider>
-              {loading ? <Loader style={{ margin: 100 }} /> : <Router>{children}</Router>}
-            </AuthProvider>
-          </QueryClientProvider>
+          <ReduxProvider store={store}>
+            <QueryClientProvider client={queryClient}>
+              <Notifications />
+              <AuthProvider>
+                {loading ? <Loader style={{ margin: 100 }} /> : <Router>{children}</Router>}
+              </AuthProvider>
+            </QueryClientProvider>
+          </ReduxProvider>
         </Provider>
       </ErrorBoundary>
     </React.Suspense>

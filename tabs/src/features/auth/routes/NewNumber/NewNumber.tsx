@@ -41,7 +41,7 @@ export const NewNumber = () => {
     }
     await createNumberMutation.mutateAsync({
       data: {
-        number: inputs.number,
+        number: `+1${inputs.number}`,
       },
     });
     return navigate('/chat');
